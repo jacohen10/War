@@ -52,8 +52,8 @@ function play() {
     if (player2.length > 0) {
       player2Hand.push(player2[0]);
       player2.shift();
-    } else alert("game over player 1 wins");
-  } else alert("game over player 2 wins");
+    } else alert("game over " + player1Name + " wins");
+  } else alert("game over " + player2Name + " wins");
   seeHand(player1Hand);
   seeHand(player2Hand);
 }
@@ -93,20 +93,20 @@ function seeWarHand(player) {
 
 function determineWinner() {
 
-  console.log("player 1 played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
-  console.log("player 2 played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
+  console.log(player1Name,"played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
+  console.log(player2Name,"played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
   if (player1Hand[player1Hand.length-1].value > player2Hand[player2Hand.length-1].value) {
     Array.prototype.push.apply(player1, player1Hand);
     Array.prototype.push.apply(player1, player2Hand);
     player1Hand = [];
     player2Hand = [];
-    console.log("Player 1 wins!");
+    console.log(player1Name,"wins!");
   } else if (player1Hand[player1Hand.length-1].value < player2Hand[player2Hand.length-1].value) {
     Array.prototype.push.apply(player2, player2Hand);
     Array.prototype.push.apply(player2, player1Hand);
     player1Hand = [];
     player2Hand = [];
-    console.log("Player 2 wins!");
+    console.log(player2Name,"wins!");
   } else if (player1Hand[player1Hand.length-1].value === player2Hand[player2Hand.length-1].value) {
     player1Hand.push(player1[0],player1[1],player1[2],player1[3]);
     player1.splice(0, 4);
@@ -119,15 +119,23 @@ function determineWinner() {
   }
 }
 
-$("button").on("click", function() {
+$("button").eq(1).on("click", function() {
   play();
   determineWinner();
+    $(".score").eq(0).text(player1Name + "'s Cards remaining: " + player1.length);
+    $(".score").eq(1).text(player2Name + "'s Cards remaining: " + player2.length);
 });
 
+// add player names
 
+var player1Name = "player 1";
+var player2Name = "player 2";
 
-
-
-
-
-// whoever has the card with the higher value gets to keep both cards
+$("button").eq(0).on("click", function () {
+  player1Name = $("input[name='1']").val();
+  player2Name = $("input[name='2']").val();
+  console.log(player1Name);
+  console.log(player2Name);
+  $(".score").eq(0).text(player1Name + "'s Cards remaining: " + player1.length);
+  $(".score").eq(1).text(player2Name + "'s Cards remaining: " + player2.length);
+});
