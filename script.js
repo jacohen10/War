@@ -74,30 +74,36 @@ function play() {
 }
 
 function determineWinner() {
-  if (player1Hand[0].value > player2Hand[0].value) {
-    player1.push(player1Hand[0]);
-    player1.push(player2Hand);
-    player1Hand.shift();
-    player2Hand.shift();
+  console.log("player 1 played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
+  console.log("player 2 played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
+  if (player1Hand[player1Hand.length-1].value > player2Hand[player2Hand.length-1].value) {
+    Array.prototype.push.apply(player1, player1Hand);
+    Array.prototype.push.apply(player1, player2Hand);
+    player1Hand = [];
+    player2Hand = [];
     console.log("Player 1 wins!");
-  } else if (player1Hand[0].value < player2Hand[0].value) {
-    player2.push(player1Hand[0]);
-    player2.push(player2Hand);
-    player1Hand.shift();
-    player2Hand.shift();
+  } else if (player1Hand[player1Hand.length-1].value < player2Hand[player2Hand.length-1].value) {
+    Array.prototype.push.apply(player2, player2Hand);
+    Array.prototype.push.apply(player2, player1Hand);
+    player1Hand = [];
+    player2Hand = [];
     console.log("Player 2 wins!");
-  } else if (player1Hand[0].value === player2Hand[0].value) {
+  } else if (player1Hand[player1Hand.length-1].value === player2Hand[player2Hand.length-1].value) {
+    player1Hand.push(player1[0],player1[1],player1[2],player1[3]);
+    player1.splice(0, 3);
+    player2Hand.push(player2[0],player2[1],player2[2],player2[3]);
+    player2.splice(0, 3);
+    determineWinner();
+
     console.log("War!!!");
   }
 }
 
 $("button").on("click", function() {
   play();
-  console.log("player 1 played", player1Hand[0].name, "of", player1Hand[0].suit);
-  console.log("player 2 played", player2Hand[0].name, "of", player2Hand[0].suit);
   determineWinner();
-
 });
+
 
 
 
