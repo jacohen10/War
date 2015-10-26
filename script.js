@@ -59,43 +59,47 @@ for (i=51; i>=((myDeck.length)/2); i--) {
 
 // here I need to take the card from the top of each players' deck and compare their values
 
-// var player1Hand = [];
-// var player2Hand = [];
-//
-// function play() {
-//   if (player1.length > 0) {
-//     player1Hand.push(player1[0]);
-//     player1.shift();
-//     if (player2.length > 0) {
-//       player2Hand.push(player2[0]);
-//       player2.shift();
-//     } else alert("game over player 1 wins");
-//   } else alert("game over player 2 wins");
-// }
-//
-// function determineWinner() {
-//   if (player1Hand[0].value > player2Hand[0].value) {
-//     player1.push(player1hand);
-//     player1.push(player2hand);
-//     player1hand.shift();
-//     player2hand.shift();
-//     console.log("Player 1 wins!");
-//   }
-// }
-//
-// $("button").on("click", function() {
-//   play();
-//   console.log(player1Hand);
-//   console.log(player2Hand);
-//   determineWinner();
-//
-// });
-//
-// console.log(player1Hand.length);
-// console.log(player2Hand.length);
-//
-//
-//
-//
-//
-// // whoever has the card with the higher value gets to keep both cards
+var player1Hand = [];
+var player2Hand = [];
+
+function play() {
+  if (player1.length > 0) {
+    player1Hand.push(player1[0]);
+    player1.shift();
+    if (player2.length > 0) {
+      player2Hand.push(player2[0]);
+      player2.shift();
+    } else alert("game over player 1 wins");
+  } else alert("game over player 2 wins");
+}
+
+function determineWinner() {
+  if (player1Hand[0].value > player2Hand[0].value) {
+    // player1.push(player1hand[0]);
+    // player1.push(player2hand);
+    // player1hand.shift();
+    // player2hand.shift();
+    console.log("Player 1 wins!");
+  } else if (player1Hand[0].value < player2Hand[0].value) {
+    console.log("Player 2 wins!");
+  } else if (player1Hand[0].value === player2Hand[0].value) {
+    console.log("War!!!");
+  }
+}
+
+$("button").on("click", function() {
+  play();
+  console.log(player1Hand);
+  console.log(player2Hand);
+  determineWinner();
+
+});
+
+console.log(player1Hand.length);
+console.log(player2Hand.length);
+
+
+
+
+
+// whoever has the card with the higher value gets to keep both cards
