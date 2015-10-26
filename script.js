@@ -21,23 +21,6 @@ function deck(){
 var myDeck = new deck();
 console.log(myDeck);
 
-// adding html so you can see the deck. going to want to hide this eventually
-window.onload = function() {
-
-	for(var i=0; i < myDeck.length; i++){
-		div = document.createElement('div');
-		div.className = 'card';
-
-		if(myDeck[i].suit == 'Diamonds'){
-			var ascii_char = '♦';
-		} else {
-			var ascii_char = '&' + myDeck[i].suit.toLowerCase() + ';';
-		}
-
-		div.innerHTML = '' + myDeck[i].name + '' + ascii_char + '';
-		document.body.appendChild(div);
-	}
-};
 
 // function to shuffle the deck
 function shuffle(o) {
@@ -71,9 +54,45 @@ function play() {
       player2.shift();
     } else alert("game over player 1 wins");
   } else alert("game over player 2 wins");
+  seeHand(player1Hand);
+  seeHand(player2Hand);
+}
+
+// adding html so you can see the deck. going to want to hide this eventually
+function seeHand(player) {
+	for(var i=0; i < player.length; i++){
+		div = document.createElement('div');
+		div.className = 'card';
+
+		if(player[i].suit == 'Diamonds'){
+			var ascii_char = '♦';
+		} else {
+			var ascii_char = '&' + player[i].suit.toLowerCase() + ';';
+		}
+
+		div.innerHTML = '' + player[i].name + '' + ascii_char + '';
+		document.body.appendChild(div);
+	}
+}
+
+function seeWarHand(player) {
+	for(var i=1; i < player.length; i++){
+		div = document.createElement('div');
+		div.className = 'card';
+
+		if(player[i].suit == 'Diamonds'){
+			var ascii_char = '♦';
+		} else {
+			var ascii_char = '&' + player[i].suit.toLowerCase() + ';';
+		}
+
+		div.innerHTML = '' + player[i].name + '' + ascii_char + '';
+		document.body.appendChild(div);
+	}
 }
 
 function determineWinner() {
+
   console.log("player 1 played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
   console.log("player 2 played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
   if (player1Hand[player1Hand.length-1].value > player2Hand[player2Hand.length-1].value) {
@@ -90,11 +109,12 @@ function determineWinner() {
     console.log("Player 2 wins!");
   } else if (player1Hand[player1Hand.length-1].value === player2Hand[player2Hand.length-1].value) {
     player1Hand.push(player1[0],player1[1],player1[2],player1[3]);
-    player1.splice(0, 3);
+    player1.splice(0, 4);
     player2Hand.push(player2[0],player2[1],player2[2],player2[3]);
-    player2.splice(0, 3);
+    player2.splice(0, 4);
+    seeWarHand(player1Hand);
+    seeWarHand(player2Hand);
     determineWinner();
-
     console.log("War!!!");
   }
 }
