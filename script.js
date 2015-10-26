@@ -75,12 +75,16 @@ function play() {
 
 function determineWinner() {
   if (player1Hand[0].value > player2Hand[0].value) {
-    // player1.push(player1hand[0]);
-    // player1.push(player2hand);
-    // player1hand.shift();
-    // player2hand.shift();
+    player1.push(player1Hand[0]);
+    player1.push(player2Hand);
+    player1Hand.shift();
+    player2Hand.shift();
     console.log("Player 1 wins!");
   } else if (player1Hand[0].value < player2Hand[0].value) {
+    player2.push(player1Hand[0]);
+    player2.push(player2Hand);
+    player1Hand.shift();
+    player2Hand.shift();
     console.log("Player 2 wins!");
   } else if (player1Hand[0].value === player2Hand[0].value) {
     console.log("War!!!");
@@ -89,14 +93,12 @@ function determineWinner() {
 
 $("button").on("click", function() {
   play();
-  console.log(player1Hand);
-  console.log(player2Hand);
+  console.log("player 1 played", player1Hand[0].name, "of", player1Hand[0].suit);
+  console.log("player 2 played", player2Hand[0].name, "of", player2Hand[0].suit);
   determineWinner();
 
 });
 
-console.log(player1Hand.length);
-console.log(player2Hand.length);
 
 
 
