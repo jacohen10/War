@@ -73,12 +73,18 @@ function colorCardsRed(){
 }
 
 function colorWarCardsRed(){
-  for (i=0; i<$("#warCards1").length; i++) {
-    if ($("#warCards1").eq(i).text().charAt(1)=== "♦") {
-      $("#warCards1").eq(i).css("color","red");
+  for (i=0; i<$('[id*="warCards1"]').length; i++) {
+    if ($('[id*="warCards1"]').eq(i).text().charAt(1)=== "♦") {
+      $('[id*="warCards1"]').eq(i).css("color","red");
     }
-    if ($("#warCards1").eq(i).text().charAt(1)==="♥") {
-      $("#warCards1").eq(i).css("color","red");
+    if ($('[id*="warCards1"]').eq(i).text().charAt(1)==="♥") {
+      $('[id*="warCards1"]').eq(i).css("color","red");
+    }
+    if ($('[id*="warCards2"]').eq(i).text().charAt(1)=== "♦") {
+      $('[id*="warCards2"]').eq(i).css("color","red");
+    }
+    if ($('[id*="warCards2"]').eq(i).text().charAt(1)==="♥") {
+      $('[id*="warCards2"]').eq(i).css("color","red");
     }
   }
 }
@@ -114,7 +120,7 @@ function seeWarHand(player, x) {
 		}
 
 		newDiv.innerHTML = '' + player[i].name + '' + ascii_char + '';
-		$(".cards2").append(newDiv);
+    $(".cards2").append(newDiv);
 	}
 }
 
@@ -140,6 +146,9 @@ function determineWinner() {
     player2.splice(0, 4);
     seeWarHand(player1Hand, 1);
     seeWarHand(player2Hand, 2);
+    colorWarCardsRed();
+    moveWarCards();
+    lastWarCards();
     determineWinner();
     console.log("War!!!");
   }
@@ -171,8 +180,8 @@ $("button").eq(1).on("click", function() {
 
 // add player names
 
-var player1Name = "player 1";
-var player2Name = "player 2";
+var player1Name = "Player 1";
+var player2Name = "Player 2";
 
 $("button").eq(0).on("click", function () {
   player1Name = $("input[name='1']").val();
@@ -182,6 +191,22 @@ $("button").eq(0).on("click", function () {
   $(".score1").text(player1Name + "'s Cards remaining: " + player1.length);
   $(".score2").text(player2Name + "'s Cards remaining: " + player2.length);
 });
+
+function moveWarCards() {
+  $(".topHalf").append($('[id*="warCards1"]'));
+  $(".bottomHalf").append($('[id*="warCards2"]'));
+}
+
+function lastWarCards() {
+  $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.height = "175px";
+  $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.width = "125px";
+  $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.margin = "55px";
+  $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.fontSize = "55px";
+  $('[id*="warCards2"]')[$('[id*="warCards2"]').length-1].style.height = "175px";
+  $('[id*="warCards2"]')[$('[id*="warCards2"]').length-1].style.width = "125px";
+  $('[id*="warCards2"]')[$('[id*="warCards2"]').length-1].style.margin = "55px";
+  $('[id*="warCards2"]')[$('[id*="warCards2"]').length-1].style.fontSize = "55px";
+}
 
 function test() {
   player1[0].value = 10;
