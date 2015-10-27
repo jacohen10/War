@@ -46,6 +46,8 @@ var player1Hand = [];
 var player2Hand = [];
 
 function play() {
+  $(".card").remove();
+  $(".winner").remove();
   if (player1.length > 0) {
     player1Hand.push(player1[0]);
     player1.shift();
@@ -56,29 +58,54 @@ function play() {
   } else alert("game over " + player2Name + " wins");
   seeHand(player1Hand);
   seeHand(player2Hand);
+  colorCardsRed();
 }
 
-// adding html so you can see the deck. going to want to hide this eventually
+function colorCardsRed(){
+  for (i=0; i<$(".card").length; i++) {
+    if ($(".card").eq(i).text().charAt(1)=== "♦") {
+      $(".card").eq(i).css("color","red");
+    }
+    if ($(".card").eq(i).text().charAt(1)==="♥") {
+      $(".card").eq(i).css("color","red");
+    }
+  }
+}
+
+function colorWarCardsRed(){
+  for (i=0; i<$("#warCards1").length; i++) {
+    if ($("#warCards1").eq(i).text().charAt(1)=== "♦") {
+      $("#warCards1").eq(i).css("color","red");
+    }
+    if ($("#warCards1").eq(i).text().charAt(1)==="♥") {
+      $("#warCards1").eq(i).css("color","red");
+    }
+  }
+}
+
+
+// adding html so you can see the hand being played
 function seeHand(player) {
 	for(var i=0; i < player.length; i++){
-		div = document.createElement('div');
-		div.className = 'card';
+		newDiv = document.createElement('div');
+		newDiv.className = 'card';
 
 		if(player[i].suit == 'Diamonds'){
-			var ascii_char = '♦';
+      var ascii_char = '♦';
 		} else {
 			var ascii_char = '&' + player[i].suit.toLowerCase() + ';';
 		}
 
-		div.innerHTML = '' + player[i].name + '' + ascii_char + '';
-		document.body.appendChild(div);
+		newDiv.innerHTML = '' + player[i].name + '' + ascii_char + '';
+    $(".cards1").append(newDiv);
 	}
 }
 
-function seeWarHand(player) {
+function seeWarHand(player, x) {
 	for(var i=1; i < player.length; i++){
-		div = document.createElement('div');
-		div.className = 'card';
+		newDiv = document.createElement('div');
+		newDiv.className = 'card';
+    $(newDiv).attr("id", "warCards"+x);
 
 		if(player[i].suit == 'Diamonds'){
 			var ascii_char = '♦';
@@ -86,8 +113,8 @@ function seeWarHand(player) {
 			var ascii_char = '&' + player[i].suit.toLowerCase() + ';';
 		}
 
-		div.innerHTML = '' + player[i].name + '' + ascii_char + '';
-		document.body.appendChild(div);
+		newDiv.innerHTML = '' + player[i].name + '' + ascii_char + '';
+		$(".cards2").append(newDiv);
 	}
 }
 
@@ -96,34 +123,50 @@ function determineWinner() {
   console.log(player1Name,"played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
   console.log(player2Name,"played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
   if (player1Hand[player1Hand.length-1].value > player2Hand[player2Hand.length-1].value) {
-    Array.prototype.push.apply(player1, player1Hand);
-    Array.prototype.push.apply(player1, player2Hand);
-    player1Hand = [];
-    player2Hand = [];
+    winnerTakesCards(player1);
+    resetHand();
+    winnerNotification(player1Name);
     console.log(player1Name,"wins!");
   } else if (player1Hand[player1Hand.length-1].value < player2Hand[player2Hand.length-1].value) {
-    Array.prototype.push.apply(player2, player2Hand);
-    Array.prototype.push.apply(player2, player1Hand);
-    player1Hand = [];
-    player2Hand = [];
+    winnerTakesCards(player2);
+    resetHand();
+    winnerNotification(player2Name);
     console.log(player2Name,"wins!");
   } else if (player1Hand[player1Hand.length-1].value === player2Hand[player2Hand.length-1].value) {
+    $(".warCards").remove();
     player1Hand.push(player1[0],player1[1],player1[2],player1[3]);
     player1.splice(0, 4);
     player2Hand.push(player2[0],player2[1],player2[2],player2[3]);
     player2.splice(0, 4);
-    seeWarHand(player1Hand);
-    seeWarHand(player2Hand);
+    seeWarHand(player1Hand, 1);
+    seeWarHand(player2Hand, 2);
     determineWinner();
     console.log("War!!!");
   }
 }
 
+function winnerTakesCards(player){
+  Array.prototype.push.apply(player, player1Hand);
+  Array.prototype.push.apply(player, player2Hand);
+}
+
+function winnerNotification(player) {
+  newDiv = document.createElement('div');
+  newDiv.className = "winner";
+  newDiv.innerHTML = "<p>"+ player + " wins!</p>";
+  $("header").append(newDiv);
+}
+
+function resetHand() {
+  player1Hand = [];
+  player2Hand = [];
+}
+
 $("button").eq(1).on("click", function() {
   play();
   determineWinner();
-    $(".score").eq(0).text(player1Name + "'s Cards remaining: " + player1.length);
-    $(".score").eq(1).text(player2Name + "'s Cards remaining: " + player2.length);
+    $(".score1").text(player1Name + "'s Cards remaining: " + player1.length);
+    $(".score2").text(player2Name + "'s Cards remaining: " + player2.length);
 });
 
 // add player names
@@ -136,6 +179,11 @@ $("button").eq(0).on("click", function () {
   player2Name = $("input[name='2']").val();
   console.log(player1Name);
   console.log(player2Name);
-  $(".score").eq(0).text(player1Name + "'s Cards remaining: " + player1.length);
-  $(".score").eq(1).text(player2Name + "'s Cards remaining: " + player2.length);
+  $(".score1").text(player1Name + "'s Cards remaining: " + player1.length);
+  $(".score2").text(player2Name + "'s Cards remaining: " + player2.length);
 });
+
+function test() {
+  player1[0].value = 10;
+  player2[0].value = 10;
+}
