@@ -1,4 +1,5 @@
 function card(value, name, suit){
+	// AM: Nice, a Javascript constructor! Getting a head start on some of the OOJS we'll be learning later.
 	this.value = value;
 	this.name = name;
 	this.suit = suit;
@@ -23,6 +24,8 @@ console.log(myDeck);
 
 
 // function to shuffle the deck
+// AM: Encourage you to take a stab at writing your own shuffle function, even if it's based off another example.
+// AM: Good strategy is to look at the solution, step away from it for a few minutes and then try to recreate it from memory.
 function shuffle(o) {
 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 	return o;
@@ -73,6 +76,8 @@ function colorCardsRed(){
 }
 
 function colorWarCardsRed(){
+	// AM: Could make your code a little DRYer here by saving your selectors to a variable (e.g., war1 = $('[id*="warCards1"]')). That way you can do war1.eq()...
+	// AM: Doesn't reduce the number of lines your code takes up, but it does make it a little more readable.
   for (i=0; i<$('[id*="warCards1"]').length; i++) {
     if ($('[id*="warCards1"]').eq(i).text().charAt(1)=== "♦") {
       $('[id*="warCards1"]').eq(i).css("color","red");
@@ -125,11 +130,11 @@ function seeWarHand(player, x) {
 }
 
 function determineWinner() {
-
   console.log(player1Name,"played", player1Hand[player1Hand.length-1].name, "of", player1Hand[player1Hand.length-1].suit);
   console.log(player2Name,"played", player2Hand[player2Hand.length-1].name, "of", player2Hand[player2Hand.length-1].suit);
   if (player1Hand[player1Hand.length-1].value > player2Hand[player2Hand.length-1].value) {
-    winnerTakesCards(player1);
+		// AM: You repeat the following fourlines of code again in your else if statement. Perhaps this could benefit from some encapsulation, especially if you use it elsewhere.
+		winnerTakesCards(player1);
     resetHand();
     winnerNotification(player1Name);
     console.log(player1Name,"wins!");
@@ -155,6 +160,7 @@ function determineWinner() {
 }
 
 function winnerTakesCards(player){
+	// AM: Nice!
   Array.prototype.push.apply(player, player1Hand);
   Array.prototype.push.apply(player, player2Hand);
 }
@@ -186,6 +192,7 @@ var player2Name = "Player 2";
 $("button").eq(0).on("click", function () {
   player1Name = $("input[name='1']").val();
   player2Name = $("input[name='2']").val();
+	// AM: Not a big deal but recommend removing test console.log statements and commented-out code from the master branch of project submissions. If you want, can preserve them in a separate branch.
   console.log(player1Name);
   console.log(player2Name);
   $(".score1").text(player1Name + "'s Cards remaining: " + player1.length);
@@ -197,6 +204,7 @@ function moveWarCards() {
   $(".bottomHalf").append($('[id*="warCards2"]'));
 }
 
+// AM: Rather than change all these CSS properties line-by-line, you can great a toggleable CSS class that contains all these properties.
 function lastWarCards() {
   $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.height = "175px";
   $('[id*="warCards1"]')[$('[id*="warCards1"]').length-1].style.width = "125px";

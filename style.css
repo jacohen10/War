@@ -1,3 +1,6 @@
+/* AM: Good job keeping your stylesheet under 100 lines. */
+/* AM: I would suggest using CSS comments to section out your stylesheet. Makes it easier to navigate. */
+
 .cards1 {
   width: 500px;
   margin-left: 33%;
@@ -26,6 +29,8 @@
     border-radius: 10px;
     border: 3px solid black;
 }
+
+/* AM: Noticing that the next two war cards selectors share some properties. Perhaps you would benefit from a single class that applies styling to both? */
 
 #warCards1{
   margin:5px;
