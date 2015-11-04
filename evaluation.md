@@ -20,7 +20,7 @@
 
 I left a bunch of inline code comments. Check them out by clicking the link below...
 
-[inline code comments here](https://github.com/jshawl/wdi_project_1/compare/73e11c4...5c7cbec)
+[inline code comments here](https://github.com/jacohen10/project1/pull/1)
 
 ## Problem Solving
 
